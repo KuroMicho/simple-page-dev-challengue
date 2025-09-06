@@ -1,0 +1,569 @@
+<!DOCTYPE html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Simple Homepage</title>
+  </head>
+  <style>
+    @import url("https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap");
+
+    :root {
+      --color-primary: #2a4dd0;
+      --color-secondary: #4ca154;
+      --color-sub-heading: #111729;
+      --color-main-heading: #223344;
+      --color-mobile-navlink: #909193;
+      --background-color: #f2f9fe;
+      --background-color--dark: #111729;
+      --color-light: #ffffff;
+      --color-dark: #111729;
+    }
+
+    *,
+    *::before,
+    *::after {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    html {
+      font-size: 62.5%; /* 1rem = 10px*/
+    }
+
+    body {
+      font-family: "Poppins", sans-serif;
+      font-size: 1.6rem;
+      background-color: var(--background-color);
+      color: var(--color-dark);
+    }
+
+    a {
+      text-decoration: none;
+      color: inherit;
+    }
+
+    button {
+      cursor: pointer;
+      border: none;
+      background: none;
+    }
+
+    .container {
+      margin: 0 auto;
+      padding: 2rem 6rem;
+    }
+
+    /* TODO: MODO OSCURO */
+    body.body--dark {
+      background-color: var(--background-color--dark);
+      color: var(--color-light);
+    }
+
+    body.body--dark .text-column__sub-heading,
+    body.body--dark .text-column__main-heading,
+    body.body--dark .text-column__description,
+    body.body--dark .nav__link,
+    body.body--dark .feature-item__text {
+      color: var(--color-light);
+    }
+
+    body.body--dark .slider {
+      background-color: var(--color-light);
+    }
+
+    body.body--dark input:checked + .slider::before {
+      background-color: var(--color-dark);
+    }
+
+    .header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 2rem 0;
+    }
+
+    .logo {
+      display: flex;
+      align-items: center;
+    }
+
+    .logo__icon {
+      width: 16rem;
+      height: auto;
+    }
+
+    .nav {
+      display: flex;
+      gap: 4rem;
+    }
+
+    .nav__link {
+      font-size: 1.6rem;
+      color: var(--color-dark);
+      position: relative;
+      font-weight: 600;
+    }
+
+    .nav__link::after {
+      content: "";
+      position: absolute;
+      left: 0;
+      bottom: -5px;
+      width: 0;
+      height: 2px;
+      background-color: var(--color-primary);
+      transition: width 0.3s ease;
+    }
+
+    .nav__link:hover::after {
+      width: 100%;
+    }
+
+    .header-buttons {
+      display: flex;
+      align-items: center;
+      gap: 1.5rem;
+    }
+
+    .switch {
+      position: relative;
+      display: inline-block;
+      width: 60px;
+      height: 30px;
+    }
+
+    .switch input {
+      opacity: 0;
+      width: 0;
+      height: 0;
+    }
+
+    .slider {
+      position: absolute;
+      cursor: pointer;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background-color: var(--color-dark);
+      transition: 0.4s;
+      border-radius: 30px;
+    }
+
+    .slider .icon {
+      position: absolute;
+      top: 50%;
+      transform: translateY(-50%);
+      font-size: 1.6rem;
+      line-height: 1;
+    }
+
+    .sun-icon {
+      color: #f1c40f;
+      left: 5px;
+    }
+
+    .moon-icon {
+      color: #f39c12;
+      right: 5px;
+    }
+
+    .slider::before {
+      position: absolute;
+      content: "";
+      height: 24px;
+      width: 24px;
+      left: 5px;
+      bottom: 3px;
+      background-color: white;
+      transition: 0.4s;
+      border-radius: 50%;
+    }
+
+    input:checked + .slider::before {
+      transform: translateX(26px);
+      background-color: white;
+    }
+
+    /* TODO: Menu Mobile */
+    .mobile-nav {
+      display: none;
+    }
+
+    .menu-button,
+    .close-button {
+      display: none;
+    }
+
+    .main-content {
+      display: flex;
+      flex-direction: row;
+      align-items: center;
+      text-align: left;
+      gap: 2rem;
+      padding: 5rem 2rem;
+    }
+
+    .text-column {
+      display: flex;
+      flex-direction: column;
+      flex: 0 1 40%;
+    }
+
+    .text-column__sub-heading {
+      font-size: 1.6rem;
+      font-weight: 600;
+      letter-spacing: 0.05rem;
+      text-transform: uppercase;
+      color: var(--color-sub-heading);
+      margin-bottom: 0.5rem;
+    }
+
+    .text-column__main-heading {
+      font-size: 6rem;
+      font-weight: 700;
+      line-height: 1.6;
+      color: var(--color-main-heading);
+      margin-bottom: 2rem;
+    }
+
+    .text-column__description {
+      font-size: 1.8rem;
+      color: var(--color-dark);
+      font-weight: 500;
+      line-height: 1.5;
+      margin-bottom: 2rem;
+    }
+
+    .buttons-container {
+      display: flex;
+      flex-direction: row;
+      gap: 2rem;
+      margin-bottom: 4rem;
+    }
+
+    .primary-button,
+    .secondary-button {
+      padding: 1.8rem 2.4rem;
+      border-radius: 1.2rem;
+      font-weight: 600;
+      font-size: 1.6rem;
+      transition: transform 0.2s ease;
+    }
+
+    .primary-button {
+      background-color: var(--color-primary);
+      color: var(--color-light);
+    }
+
+    .primary-button:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    }
+
+    .secondary-button {
+      background-color: transparent;
+      color: var(--color-primary);
+      position: relative;
+      padding: 1.8rem 0rem;
+    }
+
+    .secondary-button::after {
+      content: "";
+      position: absolute;
+      left: 0;
+      bottom: 10px;
+      width: 100%;
+      height: 2px;
+      background-color: var(--color-primary);
+      transform: scaleX(0);
+      transform-origin: bottom right;
+      transition: transform 0.3s ease-out;
+    }
+
+    /* TODO: BOTONES OSCUROS */
+
+    .secondary-button:hover::after {
+      transform: scaleX(1);
+      transform-origin: bottom left;
+    }
+
+    .features {
+      display: flex;
+      flex-direction: row;
+      align-items: center;
+      gap: 2rem;
+    }
+
+    .feature-item {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+
+    .feature-item__icon {
+      width: 2.25rem;
+      height: 2.25rem;
+    }
+
+    .feature-item__text {
+      color: var(--color-dark);
+    }
+
+    .image-column {
+      width: 100%;
+      display: flex;
+      justify-content: right;
+      flex: 0 1 60%;
+    }
+
+    .image-column__image {
+      width: 100%;
+      max-width: 600px;
+      height: auto;
+    }
+
+    /* MediaQuery para mobile */
+    @media only screen and (max-width: 768px) {
+      .container {
+        padding: 1.5rem;
+      }
+
+      .nav {
+        display: none;
+      }
+
+      .menu-button,
+      .close-button {
+        display: flex;
+      }
+
+      body.body--dark .menu-button,
+      body.body--dark .close-button {
+        filter: brightness(0) invert(1);
+      }
+
+      .theme-toggle-button {
+        display: none;
+      }
+
+      .switch {
+        display: none;
+      }
+
+      .mobile-nav {
+        display: flex;
+        flex-direction: column;
+        position: fixed;
+        top: 0;
+        right: 0;
+        width: 250px;
+        height: 100%;
+        background-color: var(--background-color);
+        box-shadow: -4px 0 10px rgba(0, 0, 0, 0.1);
+        transform: translateX(100%);
+        transition: transform 0.2s ease-in-out;
+        z-index: 100;
+        padding: 2rem;
+        gap: 1.5rem;
+      }
+
+      body.body--dark .mobile-nav {
+        background-color: var(--color-dark);
+        box-shadow: -4px 0 10px rgba(255, 255, 255, 0.1);
+      }
+
+      .mobile-nav--open {
+        transform: translateX(0);
+      }
+
+      .close-button {
+        align-self: flex-end;
+        margin-bottom: 1rem;
+      }
+
+      .main-content {
+        flex-direction: column;
+        align-items: center;
+        text-align: center;
+      }
+
+      .text-column {
+        align-items: center;
+        text-align: center;
+      }
+
+      .image-column {
+        justify-content: center;
+      }
+
+      .buttons-container {
+        flex-direction: column;
+      }
+
+      .features {
+        flex-direction: column;
+        align-items: flex-start;
+      }
+    }
+
+    @media only screen and (max-width: 425px) {
+      html {
+        font-size: 55%; /* 9px */
+      }
+
+      .text-column__main-heading {
+        font-size: 5rem;
+      }
+    }
+  </style>
+  <body class="body--light">
+    <!-- contenedor principaal -->
+    <div class="container">
+      <header class="header">
+        <a href="#" class="logo">
+          <img
+            id="logo-image"
+            src="./assets/logo-light.svg"
+            alt="Alarado logo"
+            class="logo__icon"
+          />
+        </a>
+        <nav class="nav">
+          <a href="#" class="nav__link">About us</a>
+          <a href="#" class="nav__link">Product</a>
+          <a href="#" class="nav__link">Resource</a>
+          <a href="#" class="nav__link">Contact</a>
+        </nav>
+        <div class="header-buttons">
+          <label class="switch">
+            <input type="checkbox" id="theme-toggle" />
+            <span class="slider">
+              <img
+                class="icon moon-icon"
+                src="./assets/Moon_fill.svg"
+                alt="Moon icon"
+              />
+              <img
+                class="icon sun-icon"
+                src="./assets/Sun_fill.svg"
+                alt="Sun icon"
+              />
+            </span>
+          </label>
+          <!-- Menu hamburguesa (visible en movil) -->
+          <button id="menu-button" class="menu-button">
+            <img
+              class="icon"
+              src="./assets/hamburger-button.svg"
+              alt="Menu icon"
+            />
+          </button>
+        </div>
+      </header>
+
+      <!-- Menu lateral -->
+
+      <nav id="mobile-menu" class="mobile-nav">
+        <button id="close-menu-button" class="close-button">
+          <img src="./assets/close-button.svg" class="icon" alt="Close Icon" />
+        </button>
+        <a href="#" class="nav__link">About us</a>
+        <a href="#" class="nav__link">Product</a>
+        <a href="#" class="nav__link">Resource</a>
+        <a href="#" class="nav__link">Contact</a>
+      </nav>
+
+      <!-- Seccion contenido principal -->
+
+      <main class="main-content">
+        <div class="text-column">
+          <p class="text-column__sub-heading">😎 SIMPLEY WAY TO COMMUNICATE</p>
+          <h1 class="text-column__main-heading">
+            Actions for<br />Accessibility<br />in Design
+          </h1>
+          <p class="text-column__description">
+            The fastest way to build and deploy websites with reusable
+            components.
+          </p>
+
+          <div class="buttons-container">
+            <button class="primary-button">GET STARTED</button>
+            <a href="#" class="secondary-button">Get live demo</a>
+          </div>
+
+          <div class="features">
+            <div class="feature-item">
+              <img
+                class="feature-item__icon"
+                src="./assets/Done_ring_round_fill.svg"
+                alt="Checkmark icon"
+              />
+              <span class="feature-item__text">No credit card required</span>
+            </div>
+            <div class="feature-item">
+              <img
+                class="feature-item__icon"
+                src="./assets/Done_ring_round_fill.svg"
+                alt="Checkmark icon"
+              />
+              <span class="feature-item__text">No software to install</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="image-column">
+          <img
+            class="image-column__image"
+            src="./assets/hero-image-simple-homepage.png"
+            alt="Illustration"
+          />
+        </div>
+      </main>
+    </div>
+  </body>
+
+  <script>
+    document.addEventListener("DOMContentLoaded", () => {
+      const body = document.body;
+      const themeToggle = document.getElementById("theme-toggle");
+      const iconToggle = document.querySelector(".moon-icon");
+      const logoImage = document.getElementById("logo-image");
+      const menuButton = document.getElementById("menu-button");
+      const mobileMenu = document.getElementById("mobile-menu");
+      const closeButton = document.getElementById("close-menu-button");
+
+      function toggleTheme() {
+        body.classList.toggle("body--dark");
+
+        if (themeToggle.checked) {
+          logoImage.src = "./assets/logo-dark.svg";
+          iconToggle.src = "./assets/Moon_fill_light.svg";
+        } else {
+          logoImage.src = "./assets/logo-light.svg";
+          iconToggle.src = "./assets/Moon_fill.svg";
+        }
+      }
+
+      function openMobileMenu() {
+        mobileMenu.classList.add("mobile-nav--open");
+      }
+
+      function closeMobileMenu() {
+        mobileMenu.classList.remove("mobile-nav--open");
+      }
+
+      window.addEventListener("resize", () => {
+        if (window.innerWidth > 767) {
+          mobileMenu.classList.remove("mobile-nav--open");
+        }
+      });
+
+      if (themeToggle) themeToggle.addEventListener("change", toggleTheme);
+      if (menuButton) menuButton.addEventListener("click", openMobileMenu);
+      if (closeButton) closeButton.addEventListener("click", closeMobileMenu);
+    });
+  </script>
+</html>
